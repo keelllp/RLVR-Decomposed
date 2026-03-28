@@ -31,7 +31,13 @@ from verl.utils.ulysses import ulysses_pad_and_slice_inputs, gather_outpus_and_u
 from verl.utils.seqlen_balancing import rearrange_micro_batches, get_reverse_idx
 import verl.utils.torch_functional as verl_F
 
-from flash_attn.bert_padding import pad_input, unpad_input, rearrange, index_first_axis
+try:
+    from flash_attn.bert_padding import pad_input, unpad_input, rearrange, index_first_axis
+except:
+    def pad_input(x, *args, **kwargs): return x
+    def unpad_input(x, *args, **kwargs): return x
+    def rearrange(x, *args, **kwargs): return x
+    def index_first_axis(x, *args, **kwargs): return x
 
 __all__ = ['DataParallelPPOActor']
 
